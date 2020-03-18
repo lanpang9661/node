@@ -1,9 +1,20 @@
 const { getList, getDetail, newBlog, updateBlog, deleteBlog } = require('../controller/blog');
 const { SuccessModel, ErrorModel } = require('../model/resModel');
 
+// 登录验证
+const loginCheck = (req) => {
+    if (!req.session.username) {
+        return Promise.resolve(
+            new ErrorModel('尚未登陆')
+        );
+    }
+}
+
 const handlerBlogRouter = (req, res) => {
     const method = req.method;
     const id = req.query.id || req.body.id || '';
+    const loginCheckResult = loginCheck(req); // 登录验证 有返回值说明未登录
+    if (loginCheckResult) return loginCheckResult;
 
     // 获取博客列表
     if (method === 'GET' && req.path === '/api/blog/list') {
@@ -25,6 +36,7 @@ const handlerBlogRouter = (req, res) => {
     }
 
     if (method === 'POST' && req.path === '/api/blog/new') {
+        req.body.author = req.session.username;
         const result = newBlog(req.body);
         return result.then(data => {
             return new SuccessModel(data);
