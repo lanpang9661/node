@@ -15,7 +15,7 @@
     "cross-env": "^7.0.0",
     "image-webpack-loader": "4.6.0",
     "mysql": "^2.18.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "nodemon": "^2.0.2",
     "redis": "^3.0.2",
     "webpack": "4.29.6"
